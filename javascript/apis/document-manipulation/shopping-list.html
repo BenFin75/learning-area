@@ -14,6 +14,10 @@
         margin-left: 20px;
         color: #666;
       }
+
+      .bought {
+        text-decoration: line-through;
+      }
     </style>
   </head>
   <body>
@@ -23,7 +27,9 @@
     <div>
       <label for="item">Enter a new item:</label>
       <input type="text" name="item" id="item">
-      <button id='add'>Add item</button>
+      <button id='add'>Add Item</button>
+      <button id='clear'>Clear List</button>
+      <button id='boughtbutton'>Remove Purchased Items</button>
     </div>
 
     <ul>
@@ -32,30 +38,48 @@
 
     <script>
       const build = document.querySelector('div');
-      const add = build.querySelector('button');
+      const add = document.getElementById('add');
+      const clear = document.getElementById('clear');
+      const bought = document.getElementById('boughtbutton');
       const input = build.querySelector('input');
       const list = document.querySelector('ul');
 
 
       function addItem (input) {
-        const listItem = document.createElement('li');
-        const mkSpan = document.createElement('span');
-        const button = document.createElement('button');
-        const inputTxt = document.createTextNode(input.value);
-        list.appendChild(listItem);
-        listItem.appendChild(mkSpan);
-        const span = listItem.querySelector('span');
-        span.appendChild(inputTxt);
-        listItem.appendChild(button);
-        button.textContent = 'delete'
-        button.addEventListener('click', function () {listItem.remove()})
-        input.value = '';
+        if (input.value === '') {
+          return;
+        } else {
+          const listItem = document.createElement('li');
+          const mkSpan = document.createElement('span');
+          const strikeButton = document.createElement('button');
+          const deleteButton = document.createElement('button');
+          const inputTxt = document.createTextNode(input.value);
+          list.appendChild(listItem);
+          listItem.appendChild(mkSpan);
+          const span = listItem.querySelector('span');
+          span.appendChild(inputTxt);
+          listItem.appendChild(strikeButton);
+          listItem.appendChild(deleteButton);
+          deleteButton.textContent = 'delete';
+          deleteButton.addEventListener('click', function () {listItem.remove()});
+          strikeButton.textContent = 'Purchased';
+          strikeButton.addEventListener('click', function () {span.className = 'bought'});
+          input.value = '';
+        }
       }
       add.addEventListener('click', function () {addItem(input)});
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Enter'){
           addItem(input);
         } else {return;}
+      });
+
+      clear.addEventListener('click', function () {list.textContent = ''});
+      bought.addEventListener('click', function () {
+        const boughtItems = document.getElementsByClassName('bought');
+        while(boughtItems.length > 0) {
+          boughtItems[0].parentNode.parentNode.removeChild(boughtItems[0].parentNode);
+        }
       });
     </script>
   </body>
