@@ -13,7 +13,6 @@
         box-sizing: border-box;
       }
     </style>
-    <link rel="stylesheet" href="../styles.css" />
   </head>
 
   <body>
@@ -27,7 +26,7 @@
   </body>
   <script>
     let name = 'Mustafa';
-    let i = 0;
+    //let i = 0;
     let para = document.createElement('p');
 
     let phonebook = [
@@ -42,7 +41,19 @@
     ]
 
     // Add your code here
+    //loop though phonebook and find name
+    for (let i = 0 ;i < phonebook.length; i++) {
+      //if name = name
 
+      if (name === phonebook[i].name) {
+      //targetName = name, targetNumber = number
+      let targetName = phonebook[i].name;
+      let targetNumber = phonebook[i].number;
+      para.textContent = `${targetName}'s phone number is: ${targetNumber}`
+      return;
+      }
+      //set para equal to name & phone number of person
+    }
     // Don't edit the code below here!
     let section = document.querySelector('section');
     section.appendChild(para);
